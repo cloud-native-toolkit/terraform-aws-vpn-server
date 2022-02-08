@@ -33,6 +33,11 @@ variable "client_cidr_block" {
 }
 
 variable "rule" {
+   description = "vpn rule rule"
+}
+
+
+variable "route" {
    description = "vpn rout rule"
 }
 

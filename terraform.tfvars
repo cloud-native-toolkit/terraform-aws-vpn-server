@@ -1,5 +1,6 @@
 client_cidr_block           = "172.61.0.0/16"
-rule                        = ["172.61.0.0/16", "10.0.0.0/16"]
+rule                        = ["10.0.0.0/16", "172.31.0.0/16"]
+route                       = ["172.31.0.0/16"]
 active_directory_id         = ""
 name                        = "AWS-demo-vpnclient"
 vpc_id                      = "vpc-04f723f4bca6e8583"
