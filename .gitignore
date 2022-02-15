@@ -9,3 +9,4 @@ test/stages/module
 terraform.tfvars
 aws.code-workspace
 .vscode
+.DS_Store
