@@ -23,7 +23,7 @@ variable "subnets_ids" {
 }
 
 variable "nuber_subnets" {
-   description = "list if subnets to attch with vpn"
+   description = "list if subnets to attch with vpn."
    default = 1
 }
 
