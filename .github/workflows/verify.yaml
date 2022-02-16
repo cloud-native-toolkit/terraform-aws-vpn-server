@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         testcase:
-          - aws_vpn
+          - aws_latest
       fail-fast: false
 
     env:
