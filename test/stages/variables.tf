@@ -11,10 +11,16 @@ variable "secret_key" {
   type = string
 }
 
-variable "prefix_name" {
+variable "resource_group_name" {
+  type        = string
+  description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
+  default     = "default"
+}
+
+variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
-  default     = "swe"
+  default     = "swe-vpn"
 }
 variable "subnets_ids" {
   type = list(string)
