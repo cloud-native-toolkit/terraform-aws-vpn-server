@@ -64,7 +64,7 @@ variable "rule" {
 
 variable "name" {
   type = string
-  //default = "vpn-swe"
+  default = "vpn-swe"
   description = "Name of instance to create"
 }
 
