@@ -1,5 +1,5 @@
-name: Verify and release module
 
+name: Verify and release module
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
@@ -18,7 +18,8 @@ jobs:
     strategy:
       matrix:
         testcase:
-          - aws_latest
+          #- aws_vpc
+          -  aws_latest
       fail-fast: false
 
     env:
@@ -39,6 +40,7 @@ jobs:
           TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
       - name: Verify destroy on ${{ matrix.testcase }}
         uses: cloud-native-toolkit/action-module-verify-destroy@main
         if: ${{ always() }}
@@ -50,6 +52,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+
   verifyMetadata:
     runs-on: ubuntu-latest
 
@@ -60,11 +63,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - uses: cloud-native-toolkit/action-module-metadata-create@v1
         with:
-          strict: true
-          validate: true
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+
+      - name: Build catalog
+        uses: cloud-native-toolkit/action-module-catalog@v1
+        with:
+          tagName: ${{ github.event.release.tag_name }}
+          distDir: ${{ env.DIST_DIR }}
+          publishBranch: ${{ env.PUBLISH_BRANCH }}
+
+      - name: Verify module schema
+        run: |
+          npm i -g ajv-cli
+          curl -LsO https://modules.cloudnativetoolkit.dev/schemas/module.json
+          ajv test -s module.json -d ${{ env.DIST_DIR }}/index.yaml --valid
 
   release:
     needs: [verify, verifyMetadata]
