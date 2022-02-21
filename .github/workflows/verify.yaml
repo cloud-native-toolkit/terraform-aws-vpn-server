@@ -18,8 +18,7 @@ jobs:
     strategy:
       matrix:
         testcase:
-          #- aws_vpc
-          -  aws_latest
+          -  aws_latest_gitops
       fail-fast: false
 
     env:
