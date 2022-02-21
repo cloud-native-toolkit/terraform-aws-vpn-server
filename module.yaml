@@ -1,6 +1,6 @@
-name: aws-vpn-server
+name: aws-vpn
 type: terraform
-description: Module to provision vpn-server on aws
+description: Module to provision vpn on aws
 tags:
   - tools
   - devops
