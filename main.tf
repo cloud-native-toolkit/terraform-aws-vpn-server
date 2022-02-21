@@ -1,8 +1,8 @@
 locals {
-  subnets_ids  = length(var.subnets_ids)
+
   resource_group_name = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
-  prefix_name     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
-  vpc_name        = var.name != "" ? var.name : "${local.prefix_name}-vpc"
+  name_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
+  vpn_name        = var.name != "" ? var.name : "${local.name_prefix}-vpn"
 }
 
 resource "aws_cloudwatch_log_group" "vpnlog" {
@@ -37,7 +37,7 @@ resource "aws_ec2_client_vpn_endpoint" "vpn" {
   }
 
   tags =   {
-    Name = local.vpc_name
+    Name = local.vpn_name
     ResourceGroup = local.resource_group_name
   }
 }

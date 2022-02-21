@@ -1,7 +1,7 @@
 name: "aws-vpn"
 type: terraform
 cloudProvider: aws
-description: "Provisions  AWS VPC instance"
+description: "Provisions AWS VPC instance"
 tags:
     - infrastructure
     - networking

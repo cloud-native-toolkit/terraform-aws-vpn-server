@@ -64,7 +64,7 @@ variable "rule" {
 
 variable "name" {
   type = string
-  default = "vpn-swe"
+  //default = "vpn-swe"
   description = "Name of instance to create"
 }
 
@@ -77,7 +77,7 @@ variable "resource_group_name" {
 variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
-  default     = "swe-vpn"
+  default     = ""
 }
 
 variable "sg_ingress_rules" {
