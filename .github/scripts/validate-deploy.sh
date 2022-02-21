@@ -1,5 +1,5 @@
 #!/bin/bash
-VPN_name="$(cat terraform.tfvars | grep  "name" | awk -F'=' '{print $2}' | sed 's/[""]//g'| sed 's/[[:space:]]//g')"
+VPN_name="$(cat terraform.tfvars | grep  "name_prefix" | awk -F'=' '{print $2}' | sed 's/[""]//g'| sed 's/[[:space:]]//g')"
 REGION="$(cat terraform.tfvars | grep  "region" | awk -F'=' '{print $2}' | sed 's/[""]//g' | sed 's/[[:space:]]//g')"
 
 echo "VPN_name: ${VPN_name}"

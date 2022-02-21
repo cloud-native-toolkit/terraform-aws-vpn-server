@@ -6,6 +6,7 @@ rule                        = var.rule
 //route                       = var.route
 //active_directory_id         = ""
 name                        = var.name
+name_prefix                 = var.name_prefix
 vpc_id                      = module.vpc.vpc_id
 /*cloudwatch_log_group        = "client_vpn_endpoint"*/
 region                      = var.region

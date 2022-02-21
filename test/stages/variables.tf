@@ -78,6 +78,11 @@ variable "name" {
   default = "vpn-swe"
   description = "Name of instance to create"
 }
+variable "name_vpn" {
+  type = string
+  default = ""
+  description = "Name of instance to create"
+}
 
 variable "sg_ingress_rules" {
     type = list(object({

@@ -68,6 +68,12 @@ variable "name" {
   description = "Name of instance to create"
 }
 
+variable "name_vpn" {
+  type = string
+  default = ""
+  description = "Name of instance to create"
+}
+
 variable "resource_group_name" {
   type        = string
   description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
