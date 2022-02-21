@@ -1,11 +1,23 @@
-name: aws-vpn
+name: "aws-vpn"
 type: terraform
-description: Module to provision vpn on aws
-tags:
-  - tools
-  - devops
-versions:
-  - platforms: []
-    dependencies: []
-    variables: []
 cloudProvider: aws
+description: "Provisions the AWS VPC instance"
+tags:
+    - infrastructure
+    - networking
+    - aws
+versions:
+- platforms: []
+  providers:
+   - name: aws
+     source: "hashicorp/aws"
+  dependencies: []  
+  variables:
+    - name: resource_group_name
+      scope: global
+    - name: name_prefix
+      scope: global
+    - name: internal_cidr      
+    - name: instance_tenancy
+    - name: enable_dns_hostnames
+    - name: enable_dns_support
