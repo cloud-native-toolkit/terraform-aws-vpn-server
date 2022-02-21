@@ -2,7 +2,7 @@ locals {
 
   resource_group_name = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
   name_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
-  vpn_name        = var.name != "" ? var.name : "${local.name_prefix}-vpn"
+  vpn_name        = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}-vpn"
 }
 
 resource "aws_cloudwatch_log_group" "vpnlog" {
