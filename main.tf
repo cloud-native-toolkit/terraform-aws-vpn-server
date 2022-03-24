@@ -6,7 +6,7 @@ locals {
 }
 
 resource "aws_cloudwatch_log_group" "vpnlog" {
-  name = "vpn-log"
+  name = local.vpn_name
 
   tags = var.tags
   

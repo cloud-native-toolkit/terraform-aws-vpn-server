@@ -2,8 +2,9 @@ PATH=$BIN_DIR:$PATH
 
 echo "Cloning easy-rsa"
 rm -rf easy-rsa
-git clone https://github.com/OpenVPN/easy-rsa.git
-cd easy-rsa/easyrsa3
+curl -L -o EasyRSA-3.0.8.tgz https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
+tar zxvf EasyRSA-3.0.8.tgz
+cd EasyRSA-3.0.8
 #pwd
 #ls -la
 
@@ -51,10 +52,10 @@ then
 fi
 
 pwd
-cd ../..
+cd ..
 rm -rf certificates
 mkdir certificates
-mv easy-rsa/easyrsa3/pki/* certificates
+mv EasyRSA-3.0.8/pki/* certificates
 
 # pwd
 # ls -lRa certificates
@@ -69,4 +70,4 @@ echo "  client-key: \"$(pwd)/certificates/private/client1.vpn.ibm.com.key\"" >> 
 echo "Complete:"
 cat output.yaml
 
-rm -rf easy-rsa
+rm -rf EasyRSA-*
