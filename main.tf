@@ -4,7 +4,6 @@ locals {
   name_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
   vpn_name        = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}"
 }
-
 resource "aws_cloudwatch_log_group" "vpnlog" {
   name = local.vpn_name
 
