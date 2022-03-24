@@ -30,6 +30,25 @@ variable "vpc_id" {
    default = ""
 }
 
+variable "label" {
+  type        = string
+  description = "The label for the server instance"
+  default     = "server"
+}
+
+variable "base_security_group" {
+  type        = string
+  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
+  default     = null
+}
+
+variable "allow_ssh_from" {
+  type        = list(any)
+  description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
+  default     = ["0.0.0.0/0"]
+  #   default     = []
+}
+
 /*variable "active_directory_id" {
    description = "aws active directory connect id"
 }*/
@@ -46,6 +65,7 @@ variable "client_cidr_block" {
 
 variable "nuber_subnets" {
    description = "list if subnets to attch with vpn"
+   type = number
    default = 1
 }
 
@@ -86,6 +106,20 @@ variable "name_prefix" {
   default     = ""
 }
 
+variable "security_group_rules" {
+  type = list(object({
+    name        = string,
+    type        = string,
+    protocol    = string,
+    from_port   = number,
+    to_port     = number,
+    cidr_blocks = optional(string),
+    ip_version  = optional(string),
+  }))
+  description = "List of security group rules to set on the bastion security group in addition to the SSH rules"
+  default     = []
+}
+/*
 variable "sg_ingress_rules" {
     type = list(object({
       from_port   = number
@@ -101,4 +135,4 @@ variable "sg_ingress_rules" {
       protocol = "tcp"
       to_port = 443
     } ]
-}
+}*/

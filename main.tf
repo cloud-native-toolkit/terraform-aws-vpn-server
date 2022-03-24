@@ -2,7 +2,7 @@ locals {
 
   resource_group_name = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
   name_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
-  vpn_name        = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}-vpn"
+  vpn_name        = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}"
 }
 
 resource "aws_cloudwatch_log_group" "vpnlog" {
@@ -48,7 +48,7 @@ resource "aws_ec2_client_vpn_network_association" "vpn_subnets" {
   count = var.nuber_subnets
   client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
   subnet_id = element(var.subnets_ids, count.index)
-  security_groups = [aws_security_group.vpn_sg.id]
+  security_groups = [aws_security_group.vpnsg.id]
 
   //lifecycle {
     // The issue why we are ignoring changes is that on every change

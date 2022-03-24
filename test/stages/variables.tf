@@ -28,17 +28,24 @@ variable "subnets_ids" {
   //default = ["subnet-06d0a8066ed3e64d1"]
   default = [""]
 }
+variable "allow_ssh_from" {
+  type        = list(any)
+  description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
+  default     = ["0.0.0.0/0"]
+  #   default     = []
+}
 
 variable "nuber_subnets" {
-   description = "list if subnets to attch with vpn."
+   description = "list if subnets to attch with vpn"
+   type = number
    default = 1
 }
 
-variable "tags" {
+/*variable "tags" {
    type = map(string)
    description = "Product tag"
    default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
-}
+}*/
 
 variable "vpc_id" {
    type = string
@@ -84,21 +91,18 @@ variable "name_vpn" {
   description = "Name of instance to create"
 }
 
-variable "sg_ingress_rules" {
-    type = list(object({
-      from_port   = number
-      to_port     = number
-      protocol    = string
-      cidr_block  = string
-      description = string
-    }))
-    default = [ {
-      cidr_block = "172.61.0.0/16"
-      description = "connect to vpn client"
-      from_port = 443
-      protocol = "tcp"
-      to_port = 443
-    } ]
+variable "security_group_rules" {
+  type = list(object({
+    name        = string,
+    type        = string,
+    protocol    = string,
+    from_port   = number,
+    to_port     = number,
+    cidr_blocks = optional(string),
+    ip_version  = optional(string),
+  }))
+  description = "List of security group rules to set on the bastion security group in addition to the SSH rules"
+  default     = []
 }
 
 
@@ -155,6 +159,27 @@ variable "public_subnet_tags" {
   }
 }
 
+variable "label" {
+  type        = string
+  description = "The label for the server instance"
+  default     = "server"
+}
+
+variable "base_security_group" {
+  type        = string
+  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
+  default     = null
+}
+variable "subnet_cidrs" {
+  type        = list(string)
+  description = "(Required) The CIDR block for the  subnet."
+  default     = ["10.0.0.0/20"]
+}
+variable "subnet_private_cidrs" {
+  type        = list(string)
+  description = "(Required) The CIDR block for the  subnet."
+  default     = ["10.0.125.0/24"]
+}
 variable "private_subnet_tags" {
   description = "Tags for private subnets"
   type        = map(string)
