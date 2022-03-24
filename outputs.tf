@@ -8,11 +8,6 @@ output "vpn_client" {
   value       = aws_acm_certificate.vpn_client_root.arn
 }
 
-output "security_group_name" {
-  description = "The name of the security group"
-  value = aws_security_group.vpn_sg.*.name   
-}
-output "security_group_id" {
-  description = "The ID of the security group"
-  value = aws_security_group.vpn_sg.*.id
+output "sec_id" {
+  value = data.aws_security_group.newsg.id
 }
