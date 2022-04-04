@@ -4,50 +4,26 @@ variable "region" {
   default = "ap-south-1"
 }
 
-///variable "assume-role" {
-   // type = string
-    //description = "Assume Role to deploy on remote aws account"
-//}
 
-variable "subnets_ids" {
+variable "subnet_ids" {
   type = list(string)
-  description = "subnet_id"
-  //default = ["subnet-06d0a8066ed3e64d1"]
+  description = "Subnet ID to associate clients (each subnet passed will create an VPN association - costs involved)"
   default = [""]
-}
-
-
-variable "tags" {
-   type = map(string)
-   description = "Product tag"
-   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
 }
 
 variable "vpc_id" {
   type = string
-   description = "vpc id"
-   //default = "vpc-04f723f4bca6e8583"
+   description = "VPC Id to create resources"
    default = ""
 }
 
-variable "label" {
+variable "security_group_id" {
   type        = string
-  description = "The label for the server instance"
-  default     = "server"
+  description = "Optional security group id to use instead of the default created"
+  default     = ""
 }
 
-variable "base_security_group" {
-  type        = string
-  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
-  default     = null
-}
 
-variable "allow_ssh_from" {
-  type        = list(any)
-  description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
-  default     = ["0.0.0.0/0"]
-  #   default     = []
-}
 
 /*variable "active_directory_id" {
    description = "aws active directory connect id"
@@ -63,41 +39,59 @@ variable "client_cidr_block" {
    default = "172.61.0.0/16"
 }
 
-variable "nuber_subnets" {
-   description = "list if subnets to attch with vpn"
-   type = number
-   default = 1
+
+variable "allowed_cidr_ranges" {
+   type = list(string)
+   description = "List of CIDR ranges from which access is allowed"
+   default     = []
 }
 
-variable "rule" {
-   type = list(string)
-   description = "vpn rule rule"
-   default     = ["172.61.0.0/16", "10.0.0.0/16"]
+variable "logs_retention" {
+  default     = 365
+  description = "Retention in days for CloudWatch Log Group"
 }
-
-
-/*variable "route" {
-   type = list(string)
-   description = "vpn rout rule"
-   default     = ["172.31.0.0/16"]
-}*/
 
 variable "name" {
   type = string
   default = "vpn-swe"
-  description = "Name of instance to be creates"
+  description = "Name of log gruop"
 }
 
 variable "name_vpn" {
   type = string
   default = ""
-  description = "Name of instance to create"
+  description = "Name of resource to create"
+}
+variable "authentication_type" {
+  default     = "certificate-authentication"
+  description = "The type of client authentication to be used. Specify certificate-authentication to use certificate-based authentication, directory-service-authentication to use Active Directory authentication, or federated-authentication to use Federated Authentication via SAML 2.0."
 }
 
+variable "authentication_saml_provider_arn" {
+  default     = null
+  description = "(Optional) The ARN of the IAM SAML identity provider if type is federated-authentication."
+}
 variable "resource_group_name" {
   type        = string
   description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
   default     = "default"
+}
+
+variable "split_tunnel" {
+  default     = true
+  description = "With split_tunnel false, all client traffic will go through the VPN."
+}
+
+variable "number_subnets" {
+   description = "list if subnets to attch with vpn"
+   type = number
+   default = 1
+}
+
+variable "dns_servers" {
+  type        = list(string)
+  default     = []
+  description = "List of DNS Servers"
 }
 
 variable "name_prefix" {
@@ -106,33 +100,8 @@ variable "name_prefix" {
   default     = ""
 }
 
-variable "security_group_rules" {
-  type = list(object({
-    name        = string,
-    type        = string,
-    protocol    = string,
-    from_port   = number,
-    to_port     = number,
-    cidr_blocks = optional(string),
-    ip_version  = optional(string),
-  }))
-  description = "List of security group rules to set on the bastion security group in addition to the SSH rules"
-  default     = []
+variable "tags" {
+   type = map(string)
+   description = "Product tag"
+   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
 }
-/*
-variable "sg_ingress_rules" {
-    type = list(object({
-      from_port   = number
-      to_port     = number
-      protocol    = string
-      cidr_block  = string
-      description = string
-    }))
-    default = [ {
-      cidr_block = "172.61.0.0/16"
-      description = "connect to vpn client"
-      from_port = 443
-      protocol = "tcp"
-      to_port = 443
-    } ]
-}*/

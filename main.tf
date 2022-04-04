@@ -4,55 +4,49 @@ locals {
   name_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
   vpn_name        = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}"
 }
-resource "aws_cloudwatch_log_group" "vpnlog" {
-  name = local.vpn_name
-
-  tags = var.tags
-  
-}
-resource "aws_ec2_client_vpn_endpoint" "vpn" {
-  description = "Client VPN nonprod"
-  client_cidr_block = var.client_cidr_block
-  split_tunnel = true
-
-  transport_protocol  = "tcp"
-  
+resource "aws_ec2_client_vpn_endpoint" "default" {
+  description            = "${local.vpn_name}-Client-VPN"
   server_certificate_arn = aws_acm_certificate.vpn_server.arn
+  client_cidr_block      = var.client_cidr_block
+  split_tunnel           = var.split_tunnel
+  dns_servers            = var.dns_servers
 
   authentication_options {
-    type = "certificate-authentication"
-    root_certificate_chain_arn = aws_acm_certificate.vpn_client_root.arn
+    type                       = var.authentication_type
+    root_certificate_chain_arn = var.authentication_type != "certificate-authentication" ? null : aws_acm_certificate.vpn_client_root.arn
+    saml_provider_arn          = var.authentication_saml_provider_arn
   }
-
-  /*authentication_options {
-    type = "directory-service-authentication"
-    active_directory_id = var.active_directory_id
-  }
-*/
   connection_log_options {
-    enabled = true
-    cloudwatch_log_group  = aws_cloudwatch_log_group.vpnlog.name
-
+    enabled               = true
+    cloudwatch_log_group  = aws_cloudwatch_log_group.vpn.name
+    cloudwatch_log_stream = aws_cloudwatch_log_stream.vpn.name
   }
-
   tags =   {
-    Name = local.vpn_name
+    Name          = local.vpn_name
     ResourceGroup = local.resource_group_name
+    Service       = "client-vpn"
   }
 }
 
 
-resource "aws_ec2_client_vpn_network_association" "vpn_subnets" {
-  //count   = (local.subnets_ids > 0) ? local.subnets_ids : 0
-  count = var.nuber_subnets
-  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
-  subnet_id = element(var.subnets_ids, count.index)
-  security_groups = [aws_security_group.vpnsg.id]
+  /*tags = merge(
+    var.tags,
+    tomap({
+      "Name"    = "${var.name}-Client-VPN",
+      "EnvName" = var.name
+    })
+  )*/
 
-  //lifecycle {
-    // The issue why we are ignoring changes is that on every change
-    // terraform screws up most of the vpn assosciations
-    // see: https://github.com/hashicorp/terraform-provider-aws/issues/14717
-    //ignore_changes = [subnet_id]
-  //}
+resource "aws_ec2_client_vpn_network_association" "default" {
+  count                  = var.number_subnets
+  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
+  subnet_id              = element(var.subnet_ids, count.index)
+  security_groups        = [var.security_group_id == "" ? aws_security_group.default[0].id : var.security_group_id]
+}
+
+resource "aws_ec2_client_vpn_authorization_rule" "all_groups" {
+  count                  = length(var.allowed_cidr_ranges)
+  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
+  target_network_cidr    = var.allowed_cidr_ranges[count.index]
+  authorize_all_groups   = true
 }
