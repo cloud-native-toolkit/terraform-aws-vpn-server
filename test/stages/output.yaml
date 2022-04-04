@@ -1,0 +1,6 @@
+vpn:
+  ca: "/Users/fahim/Desktop/git/terraform-aws-vpn-server/test/stages/certificates/ca.crt"
+  server-cert: "/Users/fahim/Desktop/git/terraform-aws-vpn-server/test/stages/certificates/issued/vpn-server.vpn.ibm.com.crt"
+  server-key: "/Users/fahim/Desktop/git/terraform-aws-vpn-server/test/stages/certificates/private/vpn-server.vpn.ibm.com.key"
+  client-cert: "/Users/fahim/Desktop/git/terraform-aws-vpn-server/test/stages/certificates/issued/client1.vpn.ibm.com.crt"
+  client-key: "/Users/fahim/Desktop/git/terraform-aws-vpn-server/test/stages/certificates/private/client1.vpn.ibm.com.key"

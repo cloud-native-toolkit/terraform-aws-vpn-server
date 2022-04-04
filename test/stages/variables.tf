@@ -17,6 +17,12 @@ variable "resource_group_name" {
   default     = "default"
 }
 
+variable "tags" {
+   type = map(string)
+   description = "Product tag"
+   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
+}
+
 variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
@@ -25,27 +31,9 @@ variable "name_prefix" {
 variable "subnets_ids" {
   type = list(string)
   description = "subnet_id"
-  //default = ["subnet-06d0a8066ed3e64d1"]
   default = [""]
 }
-variable "allow_ssh_from" {
-  type        = list(any)
-  description = "An IP address, a CIDR block, or a single security group identifier to allow incoming SSH connection to the virtual server"
-  default     = ["0.0.0.0/0"]
-  #   default     = []
-}
 
-variable "nuber_subnets" {
-   description = "list if subnets to attch with vpn"
-   type = number
-   default = 1
-}
-
-/*variable "tags" {
-   type = map(string)
-   description = "Product tag"
-   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
-}*/
 
 variable "vpc_id" {
    type = string
@@ -67,11 +55,35 @@ variable "client_cidr_block" {
    description = "client cidr block"
    default = "172.61.0.0/16"
 }
+variable "authentication_type" {
+  default     = "certificate-authentication"
+  description = "The type of client authentication to be used. Specify certificate-authentication to use certificate-based authentication, directory-service-authentication to use Active Directory authentication, or federated-authentication to use Federated Authentication via SAML 2.0."
+}
+variable "split_tunnel" {
+  default     = true
+  description = "With split_tunnel false, all client traffic will go through the VPN."
+}
 
-variable "rule" {
+variable "number_subnets" {
+   description = "list if subnets to attch with vpn"
+   type = number
+   default = 1
+}
+
+variable "dns_servers" {
+  type        = list(string)
+  default     = []
+  description = "List of DNS Servers"
+}
+
+variable "authentication_saml_provider_arn" {
+  default     = null
+  description = "(Optional) The ARN of the IAM SAML identity provider if type is federated-authentication."
+}
+variable "allowed_cidr_ranges" {
    type = list(string)
-   description = "vpn rule rule"
-   default     = ["172.61.0.0/16", "10.0.0.0/16"]
+   description = "List of CIDR ranges from which access is allowed"
+   default     = [""]
 }
 
 /*variable "route" {
@@ -83,26 +95,16 @@ variable "rule" {
 variable "name" {
   type = string
   default = "vpn-swe"
-  description = "Name of instance to create"
+  description = "Name of log gruop to create"
 }
 variable "name_vpn" {
   type = string
   default = ""
   description = "Name of instance to create"
 }
-
-variable "security_group_rules" {
-  type = list(object({
-    name        = string,
-    type        = string,
-    protocol    = string,
-    from_port   = number,
-    to_port     = number,
-    cidr_blocks = optional(string),
-    ip_version  = optional(string),
-  }))
-  description = "List of security group rules to set on the bastion security group in addition to the SSH rules"
-  default     = []
+variable "logs_retention" {
+  default     = 365
+  description = "Retention in days for CloudWatch Log Group"
 }
 
 
