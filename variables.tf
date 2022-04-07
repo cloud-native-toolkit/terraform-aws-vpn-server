@@ -8,7 +8,25 @@ variable "region" {
 variable "subnet_ids" {
   type = list(string)
   description = "Subnet ID to associate clients (each subnet passed will create an VPN association - costs involved)"
-  default = [""]
+  default = []
+}
+
+variable "route_subnet_ids" {
+  type = list(string)
+  description = "Subnet ID to associate additonal route for clients (each subnet passed will create a VPN route )"
+  default = []
+}
+
+variable "additional_routes" {
+  type = list(string)
+  description = "Subnet ID to associate additonal route for clients (each subnet passed will create a VPN route )"
+  default = []
+}
+
+variable "allowed_cidr_ranges" {
+   type = list(string)
+   description = "List of CIDR ranges from which access is allowed"
+   default     = []
 }
 
 variable "vpc_id" {
@@ -24,26 +42,10 @@ variable "security_group_id" {
 }
 
 
-
-/*variable "active_directory_id" {
-   description = "aws active directory connect id"
-}*/
-
-/*variable "cloudwatch_log_group" {
-   description = "aws cloudwatch_log_group id"
-}*/
-
 variable "client_cidr_block" {
    type = string
    description = "client cidr block"
-   default = "172.61.0.0/16"
-}
-
-
-variable "allowed_cidr_ranges" {
-   type = list(string)
-   description = "List of CIDR ranges from which access is allowed"
-   default     = []
+   default = "172.63.0.0/16"
 }
 
 variable "logs_retention" {
@@ -54,13 +56,13 @@ variable "logs_retention" {
 variable "name" {
   type = string
   default = "vpn-swe"
-  description = "Name of log gruop"
+  description = "Name for vpn log gruop"
 }
 
 variable "name_vpn" {
   type = string
   default = ""
-  description = "Name of resource to create"
+  description = "Name of resource  VPN to create"
 }
 variable "authentication_type" {
   default     = "certificate-authentication"
@@ -82,10 +84,10 @@ variable "split_tunnel" {
   description = "With split_tunnel false, all client traffic will go through the VPN."
 }
 
-variable "number_subnets" {
+variable "number_subnets_vpn" {
    description = "list if subnets to attch with vpn"
    type = number
-   default = 1
+   default = 0
 }
 
 variable "dns_servers" {
