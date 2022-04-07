@@ -193,7 +193,7 @@ variable "subnet_cidrs" {
 variable "subnet_private_cidrs" {
   type        = list(string)
   description = "(Required) The CIDR block for the  subnet."
-  default     = ["10.1.30.0/24", "10.1.20.0/24"]
+  default     = ["10.1.10.0/24", "10.1.20.0/24"]
 }
 
 variable "subnet_private_cidrs_dev" {
