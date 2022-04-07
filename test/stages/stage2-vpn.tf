@@ -2,7 +2,7 @@ module "dev_vpn" {
 source    = "./module"
 depends_on                  = [module.subnets]
 client_cidr_block           = var.client_cidr_block
-allowed_cidr_ranges         = [var.internal_cidr, var.internal_cidr_dev]
+allowed_cidr_ranges         = [var.internal_cidr_pub, var.internal_cidr_dev]
 //route                       = var.route
 //active_directory_id         = ""
 name                        = var.name
