@@ -158,7 +158,7 @@ variable "public_subnet_cidr" {
   default     = ["10.10.3.0/24"]
 }
 
-variable "availability_zones" {
+variable "availability_zones_dev" {
   description = "List of availability zone ids"
   type        = list(string)
   default     = ["ap-south-1a", "ap-south-1b"]
