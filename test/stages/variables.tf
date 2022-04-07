@@ -130,7 +130,7 @@ variable "vpn_subnets_id" {
  description = "The list of subnet id which are associated with vpn."
   default     = []
 }
-variable "internal_cidr" {
+variable "internal_cidr_pub" {
   type        = string
   description = "The cidr range of the internal network.Either provide manually or chose from AWS IPAM poolsß"
   default     = "10.10.0.0/16"
@@ -155,7 +155,7 @@ variable "instance_tenancy" {
 variable "public_subnet_cidr" {
   type        = list(string)
   description = "(Required) The CIDR block for the public subnet."
-  default     = ["10.10.0.0/24"]
+  default     = ["10.10.3.0/24"]
 }
 
 variable "availability_zones" {
@@ -188,7 +188,7 @@ variable "base_security_group" {
 variable "subnet_private_cidrs" {
   type        = list(string)
   description = "(Required) The CIDR block for the  subnet."
-  default     = ["10.10.60.0/24", "10.10.70.0/24"]
+  default     = ["10.10.0.0/24", "10.10.1.0/24"]
 }
 
 variable "subnet_private_cidrs_dev" {
