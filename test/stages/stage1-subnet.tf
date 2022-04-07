@@ -4,7 +4,7 @@ module "subnets" {
   gateways                        = [module.gateway.igw_id]
   label                           = "public"
   subnet_cidrs                    = var.public_subnet_cidr_pub
-  availability_zones              = var.availability_zones
+  availability_zones              = var.availability_zones_dev
   map_customer_owned_ip_on_launch = false
   map_public_ip_on_launch         = false
 }
