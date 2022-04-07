@@ -13,7 +13,7 @@ output "sec_id" {
 }
 
 output "vpn_endpoint_id" {
-  depends_on = [time_sleep.wait]
+  depends_on = [aws_ec2_client_vpn_network_association.default]
  
   value = aws_ec2_client_vpn_endpoint.default.id
 }
