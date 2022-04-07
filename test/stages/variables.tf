@@ -26,7 +26,12 @@ variable "tags" {
 variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
-  default     = "swe-vpn"
+  default     = "route-vpn"
+}
+variable "name_prefix_dev" {
+  type        = string
+  description = "Prefix to be added to the names of resources which are being provisioned"
+  default     = "route-vpn-dev"
 }
 variable "subnets_ids" {
   type = list(string)
@@ -53,7 +58,7 @@ variable "vpc_id" {
 variable "client_cidr_block" {
   type = string
    description = "client cidr block"
-   default = "172.61.0.0/16"
+   default = "172.63.0.0/16"
 }
 variable "authentication_type" {
   default     = "certificate-authentication"
@@ -64,11 +69,6 @@ variable "split_tunnel" {
   description = "With split_tunnel false, all client traffic will go through the VPN."
 }
 
-variable "number_subnets" {
-   description = "list if subnets to attch with vpn"
-   type = number
-   default = 1
-}
 
 variable "dns_servers" {
   type        = list(string)
@@ -107,7 +107,6 @@ variable "logs_retention" {
   description = "Retention in days for CloudWatch Log Group"
 }
 
-
 ###var used by VPC Module ###start
 
 variable "provision" {
@@ -115,11 +114,32 @@ variable "provision" {
   description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
   default     = true
 }
+variable "vpn_endpoint_id" {
+  type        = string
+  description = "The id of client vpn."
+  default     = ""
+}
+variable "number_subnets_vpn" {
+   description = "list of subnets to attch with vpn"
+   type = number
+   default = 0
+}
 
-variable "internal_cidr" {
+variable "vpn_subnets_id" {
+  type        = list(string)
+ description = "The list of subnet id which are associated with vpn."
+  default     = []
+}
+variable "internal_cidr_pub" {
   type        = string
   description = "The cidr range of the internal network.Either provide manually or chose from AWS IPAM poolsß"
-  default     = "10.0.0.0/16"
+  default     = "10.10.0.0/16"
+}
+
+variable "internal_cidr_dev" {
+  type        = string
+  description = "The cidr range of the internal network.Either provide manually or chose from AWS IPAM poolsß"
+  default     = "10.20.0.0/16"
 }
 
 variable "instance_tenancy" {
@@ -132,23 +152,16 @@ variable "instance_tenancy" {
 
 ###var used by Subenet Module ###start
 
-
-variable "private_subnet_cidr" {
-  type        = list(string)
-  description = "(Required) The CIDR block for the private subnet."
-  default     = ["10.0.125.0/24"]
-}
-
-variable "public_subnet_cidr" {
+variable "public_subnet_cidr_pub" {
   type        = list(string)
   description = "(Required) The CIDR block for the public subnet."
-  default     = ["10.0.0.0/20"]
+  default     = ["10.10.3.0/24"]
 }
 
-variable "availability_zones" {
+variable "availability_zones_dev" {
   description = "List of availability zone ids"
   type        = list(string)
-  default     = ["ap-south-1a"]
+  default     = ["ap-south-1a", "ap-south-1b"]
 }
 
 
@@ -172,15 +185,16 @@ variable "base_security_group" {
   description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
   default     = null
 }
-variable "subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR block for the  subnet."
-  default     = ["10.0.0.0/20"]
-}
 variable "subnet_private_cidrs" {
   type        = list(string)
   description = "(Required) The CIDR block for the  subnet."
-  default     = ["10.0.125.0/24"]
+  default     = ["10.10.0.0/24", "10.10.1.0/24"]
+}
+
+variable "subnet_private_cidrs_dev" {
+  type        = list(string)
+  description = "(Required) The CIDR block for the  subnet."
+  default     = ["10.20.10.0/24", "10.20.20.0/24"]
 }
 variable "private_subnet_tags" {
   description = "Tags for private subnets"

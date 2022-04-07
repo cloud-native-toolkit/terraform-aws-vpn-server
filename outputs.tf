@@ -13,5 +13,10 @@ output "sec_id" {
 }
 
 output "vpn_endpoint_id" {
+  depends_on = [aws_ec2_client_vpn_network_association.default]
+ 
   value = aws_ec2_client_vpn_endpoint.default.id
 }
+/*output "associated_subnet_ids" {
+  value= aws_ec2_client_vpn_network_association.*.default.association_id
+}*/
