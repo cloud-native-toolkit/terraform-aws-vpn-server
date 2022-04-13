@@ -47,6 +47,7 @@ resource "aws_ec2_client_vpn_authorization_rule" "all_groups" {
   client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
   target_network_cidr    = var.allowed_cidr_ranges[count.index]
   authorize_all_groups   = true
+  description = "autorization rule for cider range - ${var.allowed_cidr_ranges[count.index]}"
 }
 
 

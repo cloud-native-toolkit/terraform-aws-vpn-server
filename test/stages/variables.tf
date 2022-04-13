@@ -17,11 +17,6 @@ variable "resource_group_name" {
   default     = "default"
 }
 
-variable "tags" {
-   type = map(string)
-   description = "Product tag"
-   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
-}
 
 variable "name_prefix" {
   type        = string
