@@ -11,7 +11,7 @@ resource "aws_security_group" "default" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name               = "${local.vpn_name}-Client-VPN"
+    Name               = "${local.sg_name}-Client-VPN"
     Service            = "client-vpn"
   }
 }
