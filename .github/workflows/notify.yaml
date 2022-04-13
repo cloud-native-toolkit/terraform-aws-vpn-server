@@ -1,11 +1,9 @@
-name: Notify
-
 on:
   release:
     types: [published]
 
 jobs:
-  notify:
+   notify:
     uses: cloud-native-toolkit/action-workflows/.github/workflows/notify.yaml@v1
     secrets:
       TOKEN: ${{ secrets.TOKEN }}
