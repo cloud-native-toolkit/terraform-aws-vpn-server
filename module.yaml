@@ -1,6 +1,6 @@
-name: aws-vpn-service
+name: aws-client-vpn
 type: terraform
-description: Module to create client vpn on aws
+description: Module to provision vpn service on aws
 cloudProvider: aws
 tags:
     - infrastructure
@@ -19,4 +19,13 @@ versions:
       - id: aws-vpc-subnets
         refs: 
           - source: github.com/cloud-native-toolkit/terraform-aws-vpc-subnets
-            version: ">= 1.0.0" 
+            version: ">= 1.0.0"                
+    variables:
+    - name: subnet_ids
+      moduleRef:
+        id: aws-vpc-subnets
+        output: subnet_ids
+    - name: vpc_name
+      moduleRef:
+        id: aws-vpc
+        output: vpc_name
