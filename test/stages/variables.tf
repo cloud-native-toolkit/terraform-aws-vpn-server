@@ -198,3 +198,9 @@ variable "private_subnet_tags" {
     tier = "private"
   }
 }
+
+variable "tags" {
+   type = map(string)
+   description = "Product tag"
+   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
+}

@@ -101,3 +101,9 @@ variable "name_prefix" {
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = ""
 }
+
+variable "tags" {
+   type = map(string)
+   description = "Product tag"
+   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
+}
