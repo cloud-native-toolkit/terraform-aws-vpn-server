@@ -93,17 +93,11 @@ variable "number_subnets_vpn" {
 variable "dns_servers" {
   type        = list(string)
   default     = []
-  description = "List of DNS Servers"
+  description = "List of DNS Servers."
 }
 
 variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = ""
-}
-
-variable "tags" {
-   type = map(string)
-   description = "Product tag"
-   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
 }

@@ -17,11 +17,6 @@ variable "resource_group_name" {
   default     = "default"
 }
 
-variable "tags" {
-   type = map(string)
-   description = "Product tag"
-   default =  {product = "swe", environment = "nonprod-cloud", Name = "AWS-demo-vpnclient"}
-}
 
 variable "name_prefix" {
   type        = string
@@ -161,7 +156,7 @@ variable "public_subnet_cidr_pub" {
 variable "availability_zones_dev" {
   description = "List of availability zone ids"
   type        = list(string)
-  default     = ["ap-south-1a", "ap-south-1b"]
+  default     = ["us-east-1a", "us-east-1b"]
 }
 
 
