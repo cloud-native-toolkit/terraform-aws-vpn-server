@@ -93,7 +93,7 @@ variable "number_subnets_vpn" {
 variable "dns_servers" {
   type        = list(string)
   default     = []
-  description = "List of DNS Servers"
+  description = "List of DNS Servers."
 }
 
 variable "name_prefix" {
