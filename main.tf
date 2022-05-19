@@ -50,6 +50,9 @@ resource "aws_ec2_client_vpn_authorization_rule" "all_groups" {
 
 
 resource "aws_ec2_client_vpn_route" "vpn_route" { 
+  depends_on = [
+    aws_ec2_client_vpn_network_association.default
+  ]
   count = var.additional_routes != "" && var.additional_routes != null && var.number_additional_routes > 0 ? var.number_additional_routes : 0
   description = "route to  - ${local.route_config_list[count.index][0]} from ${local.route_config_list[count.index][1]}"
   client_vpn_endpoint_id = local.client_vpn_id
