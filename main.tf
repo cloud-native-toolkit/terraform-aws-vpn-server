@@ -1,12 +1,15 @@
 locals {
 
-  resource_group_name = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
-  name_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
-  vpn_name        = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}"
-  #subnetid = length(var.subnet_ids) > 1 ? var.subnet_ids : [""] 
+  resource_group_name   = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
+  name_prefix           = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
+  vpn_name              = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}"
+  client_vpn_id         = var.existing_vpn_id != null && var.existing_vpn_id != "" ? var.existing_vpn_id : (var.create_vpn ? aws_ec2_client_vpn_endpoint.default[0].id : null)
+  route_config_provided = var.additional_routes != null && length(var.additional_routes) > 0 && var.subnet_ids != null && length(var.subnet_ids) > 0
+  route_config_list     = local.route_config_provided ? [for i in setproduct(var.additional_routes, var.subnet_ids) : i] : []
 }
 
 resource "aws_ec2_client_vpn_endpoint" "default" {
+  count                  = var.create_vpn ? 1 : 0
   description            = "${local.vpn_name}-Client-VPN"
   server_certificate_arn = aws_acm_certificate.vpn_server.arn
   client_cidr_block      = var.client_cidr_block
@@ -31,22 +34,18 @@ resource "aws_ec2_client_vpn_endpoint" "default" {
 }
 
 resource "aws_ec2_client_vpn_network_association" "default" {
-  count                  = var.number_subnets_vpn
-  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
+  count                  = var.create_vpn && var.number_subnets_association > 0 ? var.number_subnets_association : 0
+  client_vpn_endpoint_id = local.client_vpn_id
   subnet_id              = element(var.subnet_ids, count.index)
   security_groups        = [var.security_group_id == "" ? aws_security_group.default[0].id : var.security_group_id]
 }
 
-# resource "time_sleep" "wait" {
-#   depends_on = [aws_ec2_client_vpn_network_association.default]
-#   create_duration = "30s"
-# }
-
 resource "aws_ec2_client_vpn_authorization_rule" "all_groups" {
-  count                  = length(var.allowed_cidr_ranges)
-  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
+  count                  = var.create_vpn && length(var.allowed_cidr_ranges) > 0 ? length(var.allowed_cidr_ranges) : 0
+  client_vpn_endpoint_id = local.client_vpn_id
   target_network_cidr    = var.allowed_cidr_ranges[count.index]
   authorize_all_groups   = true
+  description = "autorization rule for cider range - ${var.allowed_cidr_ranges[count.index]}"
 }
 
 
@@ -54,8 +53,9 @@ resource "aws_ec2_client_vpn_route" "vpn_route" {
   depends_on = [
     aws_ec2_client_vpn_network_association.default
   ]
-  for_each               = {for index, pair in setproduct(var.additional_routes, var.route_subnet_ids) : index => pair }
-  client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.default.id
-  destination_cidr_block = each.value[0]
-  target_vpc_subnet_id   = each.value[1]
+  count = var.additional_routes != "" && var.additional_routes != null && var.number_additional_routes > 0 ? var.number_additional_routes : 0
+  description = "route to  - ${local.route_config_list[count.index][0]} from ${local.route_config_list[count.index][1]}"
+  client_vpn_endpoint_id = local.client_vpn_id
+  destination_cidr_block = local.route_config_list[count.index][0]
+  target_vpc_subnet_id   = local.route_config_list[count.index][1]
 }
