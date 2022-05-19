@@ -17,38 +17,29 @@ variable "resource_group_name" {
   default     = "default"
 }
 
-
 variable "name_prefix" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "route-vpn"
 }
+
 variable "name_prefix_dev" {
   type        = string
   description = "Prefix to be added to the names of resources which are being provisioned"
   default     = "route-vpn-dev"
 }
+
 variable "subnets_ids" {
   type = list(string)
   description = "subnet_id"
   default = [""]
 }
 
-
 variable "vpc_id" {
    type = string
    description = "vpc id"
-   //default = "vpc-04f723f4bca6e8583"
    default = ""
 }
-
-/*variable "active_directory_id" {
-   description = "aws active directory connect id"
-}*/
-
-/*variable "cloudwatch_log_group" {
-   description = "aws cloudwatch_log_group id"
-}*/
 
 variable "client_cidr_block" {
   type = string
@@ -64,11 +55,16 @@ variable "split_tunnel" {
   description = "With split_tunnel false, all client traffic will go through the VPN."
 }
 
-
 variable "dns_servers" {
   type        = list(string)
   default     = []
   description = "List of DNS Servers"
+}
+
+variable "additional_routes" {
+  type        = list(string)
+  default     = []
+  description = "List of additonal routes to add in VPN"
 }
 
 variable "authentication_saml_provider_arn" {
@@ -125,7 +121,7 @@ variable "vpn_subnets_id" {
  description = "The list of subnet id which are associated with vpn."
   default     = []
 }
-variable "internal_cidr_pub" {
+variable "internal_cidr_edge" {
   type        = string
   description = "The cidr range of the internal network.Either provide manually or chose from AWS IPAM poolsß"
   default     = "10.10.0.0/16"
@@ -150,13 +146,13 @@ variable "instance_tenancy" {
 variable "public_subnet_cidr_pub" {
   type        = list(string)
   description = "(Required) The CIDR block for the public subnet."
-  default     = ["10.10.3.0/24"]
+  default     = ["10.10.3.0/24", "10.10.4.0/24"]
 }
 
 variable "availability_zones_dev" {
   description = "List of availability zone ids"
   type        = list(string)
-  default     = ["us-east-1a", "us-east-1b"]
+  default     = ["us-east-1a","us-east-1b"]
 }
 
 
