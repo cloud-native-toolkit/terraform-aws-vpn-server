@@ -4,7 +4,7 @@ module "vpc" {#edge
 
   /* Input params required to provision new VPC */
   name_prefix            = var.name_prefix
-  internal_cidr          = var.internal_cidr
+  internal_cidr          = var.internal_cidr_edge
   instance_tenancy       = var.instance_tenancy
 }
 

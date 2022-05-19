@@ -121,7 +121,7 @@ variable "vpn_subnets_id" {
  description = "The list of subnet id which are associated with vpn."
   default     = []
 }
-variable "internal_cidr" {
+variable "internal_cidr_edge" {
   type        = string
   description = "The cidr range of the internal network.Either provide manually or chose from AWS IPAM poolsß"
   default     = "10.10.0.0/16"
