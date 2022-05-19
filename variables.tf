@@ -1,26 +1,25 @@
 variable "region" {
   type = string
   description = "The deployment region"
-  default = "ap-south-1"
+  default = ""
 }
-
 
 variable "subnet_ids" {
   type = list(string)
-  description = "Subnet ID to associate clients (each subnet passed will create an VPN association - costs involved)"
-  default = []
-}
-
-variable "route_subnet_ids" {
-  type = list(string)
-  description = "Subnet ID to associate additonal route for clients (each subnet passed will create a VPN route )"
+  description = "Subnet ID to associate clients (each subnet passed will create an VPN association -costs involved)"
   default = []
 }
 
 variable "additional_routes" {
-  type = list(string)
-  description = "Subnet ID to associate additonal route for clients (each subnet passed will create a VPN route )"
-  default = []
+  type        = list(string)
+  default     = []
+  description = "List of additonal routes to add in VPN"
+}
+
+variable "number_additional_routes" {
+  type        = number
+  default     = 0
+  description = "cont of additonal routes to add in VPN"
 }
 
 variable "allowed_cidr_ranges" {
@@ -35,12 +34,22 @@ variable "vpc_id" {
    default = ""
 }
 
+variable "create_vpn" {
+  type        = bool
+  default     = true
+  description = "Indicates whether you want to  create vpn"
+}
+
+variable "existing_vpn_id" {
+  type = string
+   description = "VPC Id to create resources"
+   default = ""
+}
 variable "security_group_id" {
   type        = string
   description = "Optional security group id to use instead of the default created"
   default     = ""
 }
-
 
 variable "client_cidr_block" {
    type = string
@@ -73,6 +82,7 @@ variable "authentication_saml_provider_arn" {
   default     = null
   description = "(Optional) The ARN of the IAM SAML identity provider if type is federated-authentication."
 }
+
 variable "resource_group_name" {
   type        = string
   description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
@@ -84,8 +94,8 @@ variable "split_tunnel" {
   description = "With split_tunnel false, all client traffic will go through the VPN."
 }
 
-variable "number_subnets_vpn" {
-   description = "list if subnets to attch with vpn"
+variable "number_subnets_association" {
+   description = "list of subnets to attch with vpn"
    type = number
    default = 0
 }
