@@ -6,7 +6,7 @@ variable "region" {
 
 variable "subnet_ids" {
   type = list(string)
-  description = "Subnet ID to associate clients (each subnet passed will create an VPN association - costs involved)"
+  description = "Subnet ID to associate clients (each subnet passed will create an VPN association -costs involved)"
   default = []
 }
 
