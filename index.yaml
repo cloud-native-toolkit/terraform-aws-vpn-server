@@ -54,6 +54,9 @@ versions:
         type: string
         description: VPC Id to create resources
         default: ''
+        moduleRef:
+          id: aws-vpc
+          output: vpc_id
       - name: create_vpn
         type: bool
         default: true
