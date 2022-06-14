@@ -1,4 +1,4 @@
-variable "region" {
+variable "region_vpn" {
   type = string
   description = "The deployment region"
   default = "ap-south-1"
