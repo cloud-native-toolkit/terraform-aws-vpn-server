@@ -11,5 +11,5 @@ subnet_ids                  = module.subnets_private.subnet_ids
 dns_servers                 = var.dns_servers
 number_subnets_association  = length(var.subnet_private_cidrs)
 additional_routes           =  ["10.1.0.0/16", "10.2.0.0/16"] 
-number_additional_routes    = 4      
+#number_additional_routes    = 4      
 }
