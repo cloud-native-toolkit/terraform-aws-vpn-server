@@ -3,6 +3,12 @@ variable "region_vpn" {
   description = "The deployment region"
   default = "ap-south-1"
 }
+
+variable "region" {
+  type = string
+  description = "The deployment region"
+  default = "ap-south-1"
+}
 variable "access_key" {
   description = "The deployment access_key."
   type = string
