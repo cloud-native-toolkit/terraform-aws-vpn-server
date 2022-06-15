@@ -24,7 +24,7 @@ variable "number_additional_routes" {
 
 variable "allowed_cidr_ranges" {
    type = list(string)
-   description = "List of CIDR ranges from which access is allowed"
+   description = "List of CIDR ranges from which access is allowed."
    default     = []
 }
 
