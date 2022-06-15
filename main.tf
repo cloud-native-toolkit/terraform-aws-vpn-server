@@ -4,9 +4,12 @@ locals {
   name_prefix           = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.resource_group_name
   vpn_name              = var.name_vpn != "" ? var.name_vpn : "${local.name_prefix}"
   client_vpn_id         = var.existing_vpn_id != null && var.existing_vpn_id != "" ? var.existing_vpn_id : (var.create_vpn ? aws_ec2_client_vpn_endpoint.default[0].id : null)
-  route_config_provided = var.additional_routes != null && length(var.additional_routes) > 0 && var.subnet_ids != null && length(var.subnet_ids) > 0
+  route_config_provided = var.subnet_ids != null && length(var.subnet_ids) > 0
   route_config_list     = local.route_config_provided ? [for i in setproduct(var.additional_routes, var.subnet_ids) : i] : []
-}
+  number_additional_routes = length(local.route_config_list)
+  security_group = var.security_group_id != "" && var.security_group_id != null  ? var.security_group_id : data.aws_security_group.newsg.id 
+
+ }
 
 resource "aws_ec2_client_vpn_endpoint" "default" {
   count                  = var.create_vpn ? 1 : 0
@@ -34,10 +37,13 @@ resource "aws_ec2_client_vpn_endpoint" "default" {
 }
 
 resource "aws_ec2_client_vpn_network_association" "default" {
+  depends_on = [
+    data.aws_security_group.newsg
+  ]
   count                  = var.create_vpn && var.number_subnets_association > 0 ? var.number_subnets_association : 0
   client_vpn_endpoint_id = local.client_vpn_id
   subnet_id              = element(var.subnet_ids, count.index)
-  security_groups        = [var.security_group_id == "" ? aws_security_group.default[0].id : var.security_group_id]
+  security_groups        = [local.security_group]
 }
 
 resource "aws_ec2_client_vpn_authorization_rule" "all_groups" {
@@ -53,7 +59,7 @@ resource "aws_ec2_client_vpn_route" "vpn_route" {
   depends_on = [
     aws_ec2_client_vpn_network_association.default
   ]
-  count = var.additional_routes != "" && var.additional_routes != null && var.number_additional_routes > 0 ? var.number_additional_routes : 0
+  count = var.additional_routes != "" && var.additional_routes != null  ? local.number_additional_routes : 0
   description = "route to  - ${local.route_config_list[count.index][0]} from ${local.route_config_list[count.index][1]}"
   client_vpn_endpoint_id = local.client_vpn_id
   destination_cidr_block = local.route_config_list[count.index][0]

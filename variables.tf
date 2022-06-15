@@ -24,7 +24,7 @@ variable "number_additional_routes" {
 
 variable "allowed_cidr_ranges" {
    type = list(string)
-   description = "List of CIDR ranges from which access is allowed"
+   description = "List of CIDR ranges from which access is allowed."
    default     = []
 }
 
@@ -47,8 +47,33 @@ variable "existing_vpn_id" {
 }
 variable "security_group_id" {
   type        = string
-  description = "Optional security group id to use instead of the default created"
+  description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
   default     = ""
+}
+variable "ingress_rules" {
+    type = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_block  = string
+      description = string
+    }))
+    default     = [
+        {
+          from_port   = 22
+          to_port     = 22
+          protocol    = "tcp"
+          cidr_block  = "0.0.0.0/0"
+          description = "ssh"
+        },
+        {
+          from_port   = 80
+          to_port     = 80
+          protocol    = "tcp"
+          cidr_block  = "0.0.0.0/0"
+          description = "web"
+        },
+    ]
 }
 
 variable "client_cidr_block" {

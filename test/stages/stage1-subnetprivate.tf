@@ -5,8 +5,7 @@ module "subnets_private" {
   label                           = "private"
   subnet_cidrs                    = var.subnet_private_cidrs
   availability_zones              = var.availability_zones_dev
-  map_customer_owned_ip_on_launch = false
-  map_public_ip_on_launch         = false
+  region                          = var.region_vpn
 }
 
 module "subnets_private_dev" {
@@ -16,6 +15,5 @@ module "subnets_private_dev" {
   label                           = "private"
   subnet_cidrs                    = var.subnet_private_cidrs_dev
   availability_zones              = var.availability_zones_dev
-  map_customer_owned_ip_on_launch = false
-  map_public_ip_on_launch         = false
+  region                          = var.region_vpn
 }

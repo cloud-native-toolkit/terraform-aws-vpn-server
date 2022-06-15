@@ -1,3 +1,9 @@
+variable "region_vpn" {
+  type = string
+  description = "The deployment region"
+  default = "ap-south-1"
+}
+
 variable "region" {
   type = string
   description = "The deployment region"
@@ -152,7 +158,7 @@ variable "public_subnet_cidr_pub" {
 variable "availability_zones_dev" {
   description = "List of availability zone ids"
   type        = list(string)
-  default     = ["us-east-1a","us-east-1b"]
+  default     = ["ap-south-1a","ap-south-1b"]
 }
 
 
@@ -171,10 +177,10 @@ variable "label" {
   default     = "server"
 }
 
-variable "base_security_group" {
+variable "security_group_id" {
   type        = string
-  description = "ID of the base security group(SG) to use for the ec2 instance. If not provided a new SG  will be created."
-  default     = null
+  description = "Optional security group id to use instead of the default created"
+  default     = ""
 }
 variable "subnet_private_cidrs" {
   type        = list(string)
