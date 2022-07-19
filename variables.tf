@@ -89,7 +89,7 @@ variable "logs_retention" {
 
 variable "log_group_name" {
   type = string
-  default = "vpn-swe"
+  default = ""
   description = "Name for vpn log gruop"
 }
 

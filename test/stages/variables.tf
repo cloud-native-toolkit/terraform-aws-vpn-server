@@ -89,10 +89,10 @@ variable "allowed_cidr_ranges" {
    default     = ["172.31.0.0/16"]
 }*/
 
-variable "name" {
+variable "log_group_name" {
   type = string
-  default = "vpn-swe"
-  description = "Name of log gruop to create"
+  default = ""
+  description = "Name for vpn log gruop"
 }
 variable "name_vpn" {
   type = string
