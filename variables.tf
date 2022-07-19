@@ -87,7 +87,7 @@ variable "logs_retention" {
   description = "Retention in days for CloudWatch Log Group"
 }
 
-variable "name" {
+variable "log_group_name" {
   type = string
   default = "vpn-swe"
   description = "Name for vpn log gruop"
