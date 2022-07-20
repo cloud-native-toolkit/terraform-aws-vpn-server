@@ -58,6 +58,7 @@ variable "ingress_rules" {
       cidr_block  = string
       description = string
     }))
+    default     = []
 }
 
 variable "client_cidr_block" {
@@ -75,7 +76,6 @@ variable "log_group_name" {
   default = ""
   description = "Name for vpn log gruop"
 }
-
 variable "name_vpn" {
   type = string
   default = ""
