@@ -58,22 +58,7 @@ variable "ingress_rules" {
       cidr_block  = string
       description = string
     }))
-    default     = [
-        {
-          from_port   = 22
-          to_port     = 22
-          protocol    = "tcp"
-          cidr_block  = "0.0.0.0/0"
-          description = "ssh"
-        },
-        {
-          from_port   = 80
-          to_port     = 80
-          protocol    = "tcp"
-          cidr_block  = "0.0.0.0/0"
-          description = "web"
-        },
-    ]
+    default     = []
 }
 
 variable "client_cidr_block" {
@@ -86,13 +71,11 @@ variable "logs_retention" {
   default     = 365
   description = "Retention in days for CloudWatch Log Group"
 }
-
 variable "log_group_name" {
   type = string
   default = ""
   description = "Name for vpn log gruop"
 }
-
 variable "name_vpn" {
   type = string
   default = ""

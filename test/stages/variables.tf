@@ -94,6 +94,7 @@ variable "log_group_name" {
   default = ""
   description = "Name for vpn log gruop"
 }
+
 variable "name_vpn" {
   type = string
   default = ""
