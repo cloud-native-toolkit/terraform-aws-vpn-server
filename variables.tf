@@ -86,7 +86,6 @@ variable "logs_retention" {
   default     = 365
   description = "Retention in days for CloudWatch Log Group"
 }
-
 variable "log_group_name" {
   type = string
   default = ""
