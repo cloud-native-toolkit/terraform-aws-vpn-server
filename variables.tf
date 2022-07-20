@@ -58,22 +58,6 @@ variable "ingress_rules" {
       cidr_block  = string
       description = string
     }))
-    default     = [
-        {
-          from_port   = 22
-          to_port     = 22
-          protocol    = "tcp"
-          cidr_block  = "0.0.0.0/0"
-          description = "ssh"
-        },
-        {
-          from_port   = 80
-          to_port     = 80
-          protocol    = "tcp"
-          cidr_block  = "0.0.0.0/0"
-          description = "web"
-        },
-    ]
 }
 
 variable "client_cidr_block" {
