@@ -24,14 +24,14 @@ data "local_file" "server_cert" {
    depends_on = [
      null_resource.create_certificates
    ]
-    filename = "${path.root}/certificates/issued/vpn-server.vpn.ibm.com.crt"
+    filename = "${path.root}/certificates/issued/server.vpn.ibm.com.crt"
 }
 
 data "local_file" "server_key" {
    depends_on = [
      null_resource.create_certificates
    ]
-    filename = "${path.root}/certificates/private/vpn-server.vpn.ibm.com.key"
+    filename = "${path.root}/certificates/private/server.vpn.ibm.com.key"
 }
 
 data "local_file" "client_cert" {

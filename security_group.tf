@@ -2,7 +2,7 @@ locals {
   sg_resource_group_name = var.resource_group_name != "" && var.resource_group_name != null ? var.resource_group_name : "default"
   sg_prefix     = var.name_prefix != "" && var.name_prefix != null ? var.name_prefix : local.sg_resource_group_name
   sg_name        = var.name_vpn != "" ? var.name_vpn : "${local.sg_prefix}"
-  base_security_group = var.security_group_id != "" && var.security_group_id != null  ? var.security_group_id : aws_security_group.vpnsg[0].id 
+  base_security_group = var.security_group_id != "" && var.security_group_id != null  ? var.security_group_id : aws_security_group.vpnsg[0].id
 }
 
 
