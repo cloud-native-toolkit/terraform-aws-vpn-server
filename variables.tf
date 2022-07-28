@@ -47,7 +47,7 @@ variable "existing_vpn_id" {
 }
 variable "security_group_id" {
   type        = string
-  description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
+  description = "ID of the base security group(SG) to use for the VPN services,If not provided a new SG  will be created."
   default     = ""
 }
 
@@ -59,15 +59,7 @@ variable "ingress_rules" {
       cidr_block  = string
       description = string
     }))
-    default     = [
-      {
-        from_port=-1
-        to_port=-1
-        protocol="all"
-        cidr_block="0.0.0.0/0"
-        description="allow_vpn"
-      }
-    ]
+    default     = []
 }
 variable "client_cidr_block" {
    type = string

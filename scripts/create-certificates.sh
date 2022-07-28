@@ -23,33 +23,33 @@ fi
 
 
 echo "Generating VPN server certificate"
-./easyrsa build-server-full server.vpn.ibm.com nopass
+./easyrsa build-server-full server.vpn.aws.com nopass
 
-if [ ! -f "pki/issued/server.vpn.ibm.com.crt" ]
+if [ ! -f "pki/issued/server.vpn.aws.com.crt" ]
 then
-    echo "pki/issued/server.vpn.ibm.com.crt could not be found."
+    echo "pki/issued/server.vpn.aws.com.crt could not be found."
     exit 1
 fi
 
-if [ ! -f "pki/private/server.vpn.ibm.com.key" ]
+if [ ! -f "pki/private/server.vpn.aws.com.key" ]
 then
-    echo "pki/private/server.vpn.ibm.com.key could not be found."
+    echo "pki/private/server.vpn.aws.com.key could not be found."
     exit 1
 fi
 
 
 echo "Generating VPN client certificate"
-./easyrsa build-client-full client1.vpn.ibm.com nopass
+./easyrsa build-client-full client1.vpn.aws.com nopass
 
-if [ ! -f "pki/issued/client1.vpn.ibm.com.crt" ]
+if [ ! -f "pki/issued/client1.vpn.aws.com.crt" ]
 then
-    echo "pki/issued/client1.vpn.ibm.com.crt could not be found."
+    echo "pki/issued/client1.vpn.aws.com.crt could not be found."
     exit 1
 fi
 
-if [ ! -f "pki/private/client1.vpn.ibm.com.key" ]
+if [ ! -f "pki/private/client1.vpn.aws.com.key" ]
 then
-    echo "pki/private/client1.vpn.ibm.com.key could not be found."
+    echo "pki/private/client1.vpn.aws.com.key could not be found."
     exit 1
 fi
 
@@ -64,10 +64,10 @@ mv EasyRSA-3.0.8/pki/* certificates
 
 echo "vpn:" > output.yaml
 echo "  ca: \"$(pwd)/certificates/ca.crt\"" >> output.yaml
-echo "  server-cert: \"$(pwd)/certificates/issued/server.vpn.ibm.com.crt\"" >> output.yaml
-echo "  server-key: \"$(pwd)/certificates/private/server.vpn.ibm.com.key\"" >> output.yaml
-echo "  client-cert: \"$(pwd)/certificates/issued/client1.vpn.ibm.com.crt\"" >> output.yaml
-echo "  client-key: \"$(pwd)/certificates/private/client1.vpn.ibm.com.key\"" >> output.yaml
+echo "  server-cert: \"$(pwd)/certificates/issued/server.vpn.aws.com.crt\"" >> output.yaml
+echo "  server-key: \"$(pwd)/certificates/private/server.vpn.aws.com.key\"" >> output.yaml
+echo "  client-cert: \"$(pwd)/certificates/issued/client1.vpn.aws.com.crt\"" >> output.yaml
+echo "  client-key: \"$(pwd)/certificates/private/client1.vpn.aws.com.key\"" >> output.yaml
 
 echo "Complete:"
 cat output.yaml
