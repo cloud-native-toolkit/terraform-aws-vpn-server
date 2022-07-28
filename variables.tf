@@ -59,15 +59,7 @@ variable "ingress_rules" {
       cidr_block  = string
       description = string
     }))
-    default     = [
-      {
-        from_port=-1
-        to_port=-1
-        protocol="all"
-        cidr_block="0.0.0.0/0"
-        description="allow_vpn"
-      }
-    ]
+    default     = []
 }
 variable "client_cidr_block" {
    type = string
