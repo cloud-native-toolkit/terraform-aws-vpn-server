@@ -8,10 +8,10 @@ aws ec2 export-client-vpn-client-configuration \
     --output text > ${VPN_SERVER}.ovpn
 sed -i~ "s/^remote /remote client1./"  ${VPN_SERVER}.ovpn
 echo "<cert>"                      >>  ${VPN_SERVER}.ovpn
-cat /Users/fahim/Desktop/Project/terraform-aws-vpn-server/test/stages/certificates/issued/client1.vpn.ibm.com.crt  >>  ${VPN_SERVER}.ovpn
+cat ./certificates/issued/client1.vpn.ibm.com.crt  >>  ${VPN_SERVER}.ovpn
 echo "</cert>"                     >>  ${VPN_SERVER}.ovpn
 echo "<key>"                       >>  ${VPN_SERVER}.ovpn
-cat /Users/fahim/Desktop/Project/terraform-aws-vpn-server/test/stages/certificates/private/client1.vpn.ibm.com.key >>  ${VPN_SERVER}.ovpn
+cat ./certificates/private/client1.vpn.ibm.com.key >>  ${VPN_SERVER}.ovpn
 echo "</key>"                      >>  ${VPN_SERVER}.ovpn
 
 echo "Your OpenVPN client profile has been created, with certificates added, and is available at $(pwd)/${VPN_SERVER}.ovpn"
