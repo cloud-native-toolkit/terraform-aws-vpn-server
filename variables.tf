@@ -47,7 +47,7 @@ variable "existing_vpn_id" {
 }
 variable "security_group_id" {
   type        = string
-  description = "ID of the base security group(SG) to use for the VPN services, If not provided a new SG  will be created."
+  description = "ID of the base security group(SG) to use for the VPN services,If not provided a new SG  will be created."
   default     = ""
 }
 
