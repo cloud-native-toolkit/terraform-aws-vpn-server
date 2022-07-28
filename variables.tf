@@ -50,6 +50,7 @@ variable "security_group_id" {
   description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
   default     = ""
 }
+
 variable "ingress_rules" {
     type = list(object({
       from_port   = number
@@ -67,12 +68,6 @@ variable "ingress_rules" {
         description="allow_vpn"
       }
     ]
-}
-
-variable "client_cidr_block" {
-   type = string
-   description = "client cidr block"
-   default = "172.63.0.0/16"
 }
 
 variable "logs_retention" {
