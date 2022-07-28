@@ -71,7 +71,7 @@ variable "ingress_rules" {
 
 variable "client_cidr_block" {
    type = string
-   description = "client cidr block"
+   description = "client cidr block for vpn"
    default = "172.63.0.0/16"
 }
 
