@@ -50,6 +50,7 @@ variable "security_group_id" {
   description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
   default     = ""
 }
+
 variable "ingress_rules" {
     type = list(object({
       from_port   = number
@@ -58,15 +59,21 @@ variable "ingress_rules" {
       cidr_block  = string
       description = string
     }))
-    default     = []
+    default     = [
+      {
+        from_port=-1
+        to_port=-1
+        protocol="all"
+        cidr_block="0.0.0.0/0"
+        description="allow_vpn"
+      }
+    ]
 }
-
 variable "client_cidr_block" {
    type = string
-   description = "client cidr block"
+   description = "client cidr block for vpn"
    default = "172.63.0.0/16"
 }
-
 variable "logs_retention" {
   default     = 365
   description = "Retention in days for CloudWatch Log Group"
