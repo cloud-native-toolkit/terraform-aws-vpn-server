@@ -2,7 +2,7 @@
 # This script generates ovpn profile for client vpn
 vpn_endpoint_id=${VPN_ID}
 
-tput setaf 2; echo ">> generate vpn client config file ..."; tput setaf 9
+echo "generate vpn client config file ..."
 aws ec2 export-client-vpn-client-configuration \
     --client-vpn-endpoint-id $vpn_endpoint_id --region ${REGION}  \
     --output text > ${VPN_SERVER}.ovpn
