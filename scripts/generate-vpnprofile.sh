@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # This script generates ovpn profile for client vpn
-# vpn_endpoint_id=${VPN_ID}
-vpn_endpoint_id=cvpn-endpoint-073a11023cb805da5
-VPN_SERVER=test
-REGION=ap-south-1
+vpn_endpoint_id=${VPN_ID}
 echo "generate vpn client config file ..."
 aws ec2 export-client-vpn-client-configuration \
     --client-vpn-endpoint-id $vpn_endpoint_id --region ${REGION}  \
